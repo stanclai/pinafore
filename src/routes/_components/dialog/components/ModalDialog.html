@@ -147,6 +147,7 @@
 
   export default {
     oncreate () {
+      this.onHashChange = this.onHashChange.bind(this)
       let dialogElement = this.refs.node.parentElement
       this._a11yDialog = new A11yDialog(dialogElement)
       this._a11yDialog.on('hide', () => {
@@ -197,11 +198,25 @@
         if (id !== thisId) {
           return
         }
-        document.body.classList.toggle('modal-open', true)
-        this._a11yDialog.show()
-        requestAnimationFrame(() => {
-          this.set({ fadedIn: true })
-        })
+        window.addEventListener('hashchange', this.onHashChange)
+        window.location.hash = `#modal-${id}`
+      },
+      ondestroy () {
+        window.removeEventListener('hashchange', this.onHashChange)
+      },
+      onHashChange () {
+        let { id } = this.get()
+        let hash = location.hash
+        if (!hash || hash !== `#modal-${id}`) {
+          this.closeDialog(id)
+        } else {
+          document.body.classList.toggle('modal-open', true)
+          this.fire('show')
+          this._a11yDialog.show()
+          requestAnimationFrame(() => {
+            this.set({ fadedIn: true })
+          })
+        }
       },
       closeDialog (thisId) {
         let { id } = this.get()
