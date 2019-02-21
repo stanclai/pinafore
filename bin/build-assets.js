@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { promisify } from 'util'
 import CleanCSS from 'clean-css'
+import { buildSvg } from './build-svg'
 
 const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
@@ -23,7 +24,8 @@ async function compileThirdPartyJson () {
 async function main () {
   await Promise.all([
     compileThirdPartyCss(),
-    compileThirdPartyJson()
+    compileThirdPartyJson(),
+    buildSvg()
   ])
 }
 

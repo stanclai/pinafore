@@ -7,6 +7,7 @@ import $ from 'cheerio'
 
 const svgo = new SVGO()
 const readFile = promisify(fs.readFile)
+const writeFile = promisify(fs.writeFile)
 
 export async function buildSvg () {
   let result = (await Promise.all(svgs.map(async svg => {
@@ -20,7 +21,9 @@ export async function buildSvg () {
       .attr('viewBox', `0 0 ${optimized.info.width} ${optimized.info.height}`)
       .append($path)
     return $.xml($symbol)
-  }))).join('\n')
+  }))).join('')
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">\n${result}\n</svg>`
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg">${result}</svg>`
+
+  await writeFile(path.resolve(__dirname, '../static/icons.svg'), svg, 'utf8')
 }

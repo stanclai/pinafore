@@ -1,7 +1,7 @@
 {#if showBadge}
   <div class="nav-link-svg-wrapper">
     <svg class="nav-link-svg">
-      <use xlink:href={svg} />
+      <use xlink:href="/icons.svg{svg}" />
     </svg>
     <span class="nav-link-badge nav-link-badge-digits-{badgeDigits}" aria-hidden="true">
       {badgeNumberToShow}
@@ -9,7 +9,7 @@
   </div>
 {:else}
   <svg class="nav-link-svg">
-    <use xlink:href={svg} />
+    <use xlink:href="/icons.svg{svg}" />
   </svg>
 {/if}
 <style>

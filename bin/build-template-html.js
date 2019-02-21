@@ -4,7 +4,6 @@ import path from 'path'
 import { promisify } from 'util'
 import { buildSass } from './build-sass'
 import { buildInlineScript } from './build-inline-script'
-import { buildSvg } from './build-svg'
 import now from 'performance-now'
 import debounce from 'lodash-es/debounce'
 
@@ -22,11 +21,6 @@ const builders = [
     watch: 'src/inline-script/inline-script.js',
     comment: '<!-- inline JS -->',
     rebuild: buildInlineScript
-  },
-  {
-    watch: 'bin/svgs.js',
-    comment: '<!-- inline SVG -->',
-    rebuild: buildSvg
   }
 ]
 
